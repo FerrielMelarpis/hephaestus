@@ -15,6 +15,12 @@ $ npm install
 ## Running the app
 
 ```bash
+# Copy the local env vars configuration to .env
+$ cp .env.local .env
+
+# Run docker container for the database
+$ docker-compose up -d
+
 # development
 $ npm run start
 
