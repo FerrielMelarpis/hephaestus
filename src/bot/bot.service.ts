@@ -1,27 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBotDto } from './dto/create-bot.dto';
-import { UpdateBotDto } from './dto/update-bot.dto';
-import { Bot } from './entities/bot.entity';
+import { Bot, Prisma } from '@prisma/client';
+import { PrismaService } from 'src/services/prisma.service';
+
+type BotServiceFindManyParams = {
+  skip: number;
+  take: number;
+  cursor: Prisma.BotWhereUniqueInput;
+  where: Prisma.BotWhereInput;
+  orderBy: Prisma.BotOrderByWithRelationInput;
+};
 
 @Injectable()
 export class BotService {
-  create(createBotDto: CreateBotDto) {
-    return this.botsRepository.save(createBotDto);
+  constructor(private prisma: PrismaService) {}
+
+  async findUnique(where: Prisma.BotWhereUniqueInput): Promise<Bot | null> {
+    return this.prisma.bot.findUnique({ where });
   }
 
-  findAll(): Promise<Bot[]> {
-    return this.botsRepository.find();
+  async findMany(params: Partial<BotServiceFindManyParams>): Promise<Bot[]> {
+    return this.prisma.bot.findMany(params);
   }
 
-  findOne(id: number): Promise<Bot> {
-    return this.botsRepository.findOneBy({ id });
+  async createBot(data: Prisma.BotCreateInput): Promise<Bot> {
+    return this.prisma.bot.create({ data });
   }
 
-  update(id: number, updateBotDto: UpdateBotDto) {
-    return this.botsRepository.update(id, updateBotDto);
+  async updateBot(params: {
+    where: Prisma.BotWhereUniqueInput;
+    data: Prisma.BotUpdateInput;
+  }): Promise<Bot> {
+    const { where, data } = params;
+    return this.prisma.bot.update({
+      data,
+      where,
+    });
   }
 
-  async remove(id: number) {
-    await this.botsRepository.delete(id);
+  async deleteBot(where: Prisma.BotWhereUniqueInput): Promise<Bot> {
+    return this.prisma.bot.delete({ where });
   }
 }

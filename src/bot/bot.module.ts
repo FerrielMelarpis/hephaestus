@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { BotService } from './bot.service';
 import { BotController } from './bot.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { entities as botEntities } from './entities/entities';
+import { PrismaService } from 'src/services/prisma.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature(botEntities)],
   controllers: [BotController],
-  providers: [BotService],
+  providers: [PrismaService, BotService],
 })
 export class BotModule {}
