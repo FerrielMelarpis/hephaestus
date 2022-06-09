@@ -18,6 +18,9 @@ $ npm install
 # Run docker container for the database.
 $ docker-compose up -d
 
+# Run migrations
+$ npm run migrate
+
 # development
 $ npm run start
 
@@ -39,6 +42,12 @@ $ docker-compose up -d
 $ npm run test
 
 # e2e tests
+
+## migrations are needed for test db
+## make sure to run them before running e2e tests
+$ npm run migrate:test # run migrations for test first
+
+## run e2e test suites
 $ npm run test:e2e
 
 # test coverage
