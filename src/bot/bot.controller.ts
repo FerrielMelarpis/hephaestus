@@ -40,8 +40,8 @@ export class BotController {
 
     return this.botService.findMany({
       where,
-      take,
-      skip,
+      take: take ?? undefined,
+      skip: skip ?? undefined,
       orderBy: {
         id: orderBy,
       },
