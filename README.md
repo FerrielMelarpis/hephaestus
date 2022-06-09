@@ -15,10 +15,7 @@ $ npm install
 ## Running the app
 
 ```bash
-# Copy the local env vars configuration to .env
-$ cp .env.local .env
-
-# Run docker container for the database
+# Run docker container for the database.
 $ docker-compose up -d
 
 # development
@@ -34,6 +31,10 @@ $ npm run start:prod
 ## Test
 
 ```bash
+# Make sure you've run the container for the database.
+# The docker-compose file contains a db service for testing as well so you only need to run this once for dev and testing.
+$ docker-compose up -d
+
 # unit tests
 $ npm run test
 

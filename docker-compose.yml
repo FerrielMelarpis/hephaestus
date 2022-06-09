@@ -11,3 +11,12 @@ services:
       - '5000:5432'
     volumes:
       - ./prisma/data:/var/lib/postgresql/data
+  db-test:
+    image: postgres:14.1-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=prisma
+      - POSTGRES_PASSWORD=prisma
+      - POSTGRES_DB=tests
+    ports:
+      - '5001:5432'
