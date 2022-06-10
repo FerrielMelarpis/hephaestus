@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Bot, Prisma } from '@prisma/client';
-import { PrismaService } from 'src/services/prisma.service';
+import { PrismaService } from 'src/server/services/prisma.service';
 
 type BotServiceFindManyParams = {
   skip: number;

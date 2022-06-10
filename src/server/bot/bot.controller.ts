@@ -13,7 +13,7 @@ import { BotService } from './bot.service';
 import { CreateBotDto } from './dto/create-bot.dto';
 import { UpdateBotDto } from './dto/update-bot.dto';
 
-@Controller('bots')
+@Controller('api/bots')
 export class BotController {
   constructor(private readonly botService: BotService) {}
 

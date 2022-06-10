@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build && pushd src/client && next build && popd",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV=development nest start",
     "start:dev": "nest start --watch",
@@ -32,7 +32,10 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "mysql2": "^2.3.3",
+    "next": "^12.1.6",
     "pg": "^8.4.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
@@ -44,6 +47,8 @@
     "@types/express": "^4.17.13",
     "@types/jest": "27.5.0",
     "@types/node": "^16.11.10",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -64,15 +69,13 @@
   },
   "jest": {
     "modulePaths": [
-      "<rootDir>",
-      "<rootDir>/../"
+      "<rootDir>"
     ],
     "moduleFileExtensions": [
       "js",
       "json",
       "ts"
     ],
-    "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

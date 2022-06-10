@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import * as request from 'supertest';
-import { BotModule } from 'src/bot/bot.module';
+import { BotModule } from 'src/server/bot/bot.module';
 
 describe('BotController (e2e)', () => {
   let app: INestApplication;
@@ -40,15 +40,15 @@ describe('BotController (e2e)', () => {
     await app.init();
   });
 
-  it('GET /bots', async () => {
-    const response = await request(app.getHttpServer()).get('/bots');
+  it('GET /api/bots', async () => {
+    const response = await request(app.getHttpServer()).get('/api/bots');
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject(seedData);
   });
 
-  it('GET /bots/?take=1&skip=1&searchString=testing&orderBy=asc', async () => {
+  it('GET /api/bots/?take=1&skip=1&searchString=testing&orderBy=asc', async () => {
     const response = await request(app.getHttpServer()).get(
-      '/bots/?take=1&skip=1&searchString=testing&orderBy=asc',
+      '/api/bots/?take=1&skip=1&searchString=testing&orderBy=asc',
     );
     expect(response.status).toEqual(200);
     // This test depends on the seedData, updating it would affect the results hence a possible need to update this assertion.
@@ -60,46 +60,52 @@ describe('BotController (e2e)', () => {
     ]);
   });
 
-  it('GET /bots/:id', async () => {
-    const response = await request(app.getHttpServer()).get('/bots');
+  it('GET /api/bots/:id', async () => {
+    const response = await request(app.getHttpServer()).get('/api/bots');
     const [firstBot] = response.body;
     const response2 = await request(app.getHttpServer()).get(
-      `/bots/${firstBot.id}`,
+      `/api/bots/${firstBot.id}`,
     );
     expect(response2.status).toEqual(200);
     expect(response2.body).toMatchObject(firstBot);
   });
 
-  it('POST /bots', async () => {
+  it('POST /api/bots', async () => {
     const bot = { name: 'createBot', purpose: 'createBot' };
-    const response = await request(app.getHttpServer()).post('/bots').send(bot);
+    const response = await request(app.getHttpServer())
+      .post('/api/bots')
+      .send(bot);
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject(bot);
 
     // test invalid data as well
     const bot2 = { name: 'invalid-n@me', purpose: 'createBot' };
     const response2 = await request(app.getHttpServer())
-      .post('/bots')
+      .post('/api/bots')
       .send(bot2);
     expect(response2.status).toEqual(400);
   });
 
-  it('PATCH /bots/:id', async () => {
+  it('PATCH /api/bots/:id', async () => {
     const patchObj = { purpose: 'patching' };
     const bot = { name: 'origBot', purpose: 'origPurpose' };
-    const response = await request(app.getHttpServer()).post('/bots').send(bot);
+    const response = await request(app.getHttpServer())
+      .post('/api/bots')
+      .send(bot);
     const response2 = await request(app.getHttpServer())
-      .patch(`/bots/${response.body.id}`)
+      .patch(`/api/bots/${response.body.id}`)
       .send(patchObj);
     expect(response2.status).toEqual(200);
     expect(response2.body).toMatchObject({ ...bot, ...patchObj });
   });
 
-  it('DELETE /bots/:id', async () => {
+  it('DELETE /api/bots/:id', async () => {
     const bot = { name: 'botToBeDeleted', purpose: 'botToBeDeleted' };
-    const response = await request(app.getHttpServer()).post('/bots').send(bot);
+    const response = await request(app.getHttpServer())
+      .post('/api/bots')
+      .send(bot);
     const response2 = await request(app.getHttpServer()).delete(
-      `/bots/${response.body.id}`,
+      `/api/bots/${response.body.id}`,
     );
     expect(response2.status).toEqual(200);
     expect(response2.body).toMatchObject(bot);
