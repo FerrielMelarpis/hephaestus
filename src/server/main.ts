@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
+  app.enableShutdownHooks();
   // enable Prisma shutdown hooks
   // See https://docs.nestjs.com/recipes/prisma#issues-with-enableshutdownhooks
   const prismaService = app.get(PrismaService);

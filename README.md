@@ -6,6 +6,24 @@ A simple CRUD app for tracking bots.
 
 This project is created with [Nest](https://github.com/nestjs/nest) framework TypeScript template.
 
+At the time of writing, the documentations for TypeORM is outdated with the latest version. I chose to use Prisma as well instead of TypeORM as I think it's a better option for several reasons.
+
+1. Better typing.
+
+- Prisma generates a client code which abstracts most of the common ORM methods that you would expect when writing a repository for an entity.
+
+2. Schema is separated from actual codebase.
+
+- The reason why I prefer this is that the .prisma file offers a syntax that is much easier to understand and reason out when describing a database schema.
+
+3. Easier migration handling.
+
+- You can just quickly design an initial schema, update it or override it when developing instead of generating new migration files on every update/mistake you make on the schema.
+
+4. Documentation
+
+- Much better documentation that TypeORM really.
+
 ## Installation
 
 ```bash

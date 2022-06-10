@@ -8,18 +8,32 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { BotService } from './bot.service';
 import { CreateBotDto } from './dto/create-bot.dto';
 import { UpdateBotDto } from './dto/update-bot.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('api/bots')
 export class BotController {
   constructor(private readonly botService: BotService) {}
 
   @Post()
-  create(@Body() createBotDto: CreateBotDto) {
-    return this.botService.createBot(createBotDto);
+  async create(@Body() createBotDto: CreateBotDto) {
+    try {
+      return await this.botService.createBot(createBotDto);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new HttpException(
+            `${error.meta?.target} must be unique.`,
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+    }
   }
 
   @Get()

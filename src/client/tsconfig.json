@@ -21,7 +21,9 @@
     "next.config.js",
     "pages/**/*.ts",
     "pages/**/*.tsx",
-    "config/**/*.ts"
+    "config/**/*.ts",
+    "shared/**/*.ts",
+    "components/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

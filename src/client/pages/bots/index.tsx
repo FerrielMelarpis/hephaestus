@@ -1,42 +1,33 @@
 import React from 'react';
 import { Config } from 'config/config';
-import { Container, List, ListItem, ListIcon } from '@chakra-ui/react';
+import { Container, Grid } from '@chakra-ui/react';
+import type { Bot } from 'shared/types/bots';
+import { BotCard } from 'components/bot_card/bot_card';
 
-function Page({ data }) {
-  // Render data...
+type PageProps = {
+  bots: Bot[];
+};
+function Page({ bots }: PageProps) {
   return (
     <Container maxWidth="container.xl">
-      <List spacing={3}>
-        <ListItem>
-          <ListIcon as={MdCheckCircle} color="green.500" />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit
-        </ListItem>
-        <ListItem>
-          <ListIcon as={MdCheckCircle} color="green.500" />
-          Assumenda, quia temporibus eveniet a libero incidunt suscipit
-        </ListItem>
-        <ListItem>
-          <ListIcon as={MdCheckCircle} color="green.500" />
-          Quidem, ipsam illum quis sed voluptatum quae eum fugit earum
-        </ListItem>
-        {/* You can also use custom icons from react-icons */}
-        <ListItem>
-          <ListIcon as={MdSettings} color="green.500" />
-          Quidem, ipsam illum quis sed voluptatum quae eum fugit earum
-        </ListItem>
-      </List>
+      <Grid
+        templateColumns="repeat(auto-fit, minmax(200px, 1fr))"
+        gap={4}
+        marginTop={12}
+      >
+        {bots.map((bot) => (
+          <BotCard key={bot.id} name={bot.name} purpose={bot.purpose} />
+        ))}
+      </Grid>
     </Container>
   );
 }
 
-// This gets called on every request
 export async function getServerSideProps() {
-  // Fetch data from external API
   const res = await fetch(Config.botApi.baseUrl + '/');
-  const data = await res.json();
+  const bots = await res.json();
 
-  // Pass data to the page via props
-  return { props: { data } };
+  return { props: { bots } };
 }
 
 export default Page;
