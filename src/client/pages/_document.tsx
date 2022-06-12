@@ -7,9 +7,9 @@ export default class Document extends NextDocument {
       <Html lang="en">
         <Head />
         <body>
-          <ColorModeScript initialColorMode="system" />
           <Main />
           <NextScript />
+          <ColorModeScript initialColorMode="system" />
         </body>
       </Html>
     );
