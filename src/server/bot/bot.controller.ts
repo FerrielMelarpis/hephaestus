@@ -57,14 +57,20 @@ export class BotController {
       take: take != null ? Number(take) : undefined,
       skip: skip != null ? Number(skip) : undefined,
       orderBy: {
-        id: orderBy,
+        id: orderBy || 'asc',
       },
     });
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
-    return this.botService.findUnique({ id });
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    const bot = await this.botService.findUnique({ id });
+
+    if (bot === null) {
+      throw new HttpException('Bot not found', HttpStatus.NOT_FOUND);
+    }
+
+    return bot;
   }
 
   @Patch(':id')
