@@ -68,6 +68,9 @@ describe('BotController (e2e)', () => {
     );
     expect(response2.status).toEqual(200);
     expect(response2.body).toMatchObject(firstBot);
+
+    const response3 = await request(app.getHttpServer()).get('/api/bots/999');
+    expect(response3.status).toEqual(404);
   });
 
   it('POST /api/bots', async () => {
