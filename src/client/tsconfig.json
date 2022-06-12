@@ -23,7 +23,8 @@
     "pages/**/*.tsx",
     "config/**/*.ts",
     "shared/**/*.ts",
-    "components/**/*.ts"
+    "components/**/*.ts",
+    "services/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
