@@ -8,7 +8,7 @@ export class NextService implements OnModuleInit {
 
   async onModuleInit(): Promise<void> {
     this.server = next({
-      dev: true, // todo: this should rely on ENV
+      dev: process.env.NODE_ENV !== 'production',
       dir: './src/client',
     });
     await this.server.prepare();
