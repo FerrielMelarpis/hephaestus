@@ -77,6 +77,9 @@ $ npm run test:cov
 - To access the app, go to http://127.0.0.1:3000/auth/github/. This will redirect you to Github.com and you will need to authorize the app to get some public info from you.
 - Once the app is authorized, it should redirect you to http://127.0.0.1:3000/bots/ page.
 
+## Github Oauth Apps
+- You can also create a github oauth app and update the .env files for this project. Just head over to https://github.com/settings/developers to create one. Make sure to copy the client secret as Github will not show it again.
+
 ## License
 
 [MIT license](LICENSE).
