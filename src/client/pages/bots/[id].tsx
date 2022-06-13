@@ -105,7 +105,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (
     return { notFound: true };
   }
 
-  const res = await fetch(`${Config.botApi.baseUrl}/${context.params.id}`);
+  const res = await fetch(`${Config.botApi.baseUrl}/${context.params.id}`, {
+    headers: {
+      Cookie: context.req.headers.cookie,
+    },
+  });
 
   if (!res.ok) {
     return { notFound: true };

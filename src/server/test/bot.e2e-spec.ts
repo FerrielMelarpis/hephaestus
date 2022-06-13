@@ -2,7 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import * as request from 'supertest';
-import { BotModule } from 'src/server/bot/bot.module';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
+import { BotModule } from '../bot/bot.module';
 
 describe('BotController (e2e)', () => {
   let app: INestApplication;
@@ -33,7 +34,12 @@ describe('BotController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [BotModule],
-    }).compile();
+    })
+      .overrideGuard(JwtAuthGuard)
+      .useValue({
+        canActive: () => true,
+      })
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());

@@ -72,6 +72,11 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Authentication and Authorization
+- The app has basic Github Oauth2 + JWT strategy authentication and authorization process.
+- To access the app, go to http://127.0.0.1:3000/auth/github/. This will redirect you to Github.com and you will need to authorize the app to get some public info from you.
+- Once the app is authorized, it should redirect you to http://127.0.0.1:3000/bots/ page.
+
 ## License
 
 [MIT license](LICENSE).

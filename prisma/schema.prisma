@@ -7,6 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         Int                  @id @default(autoincrement())
+  username   String
+  credential FederatedCredential?
+}
+
+model FederatedCredential {
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int    @unique
+  provider String
+  subject  String // The id of the user in the provider
+
+  @@unique([provider, subject])
+}
+
 model Bot {
   id      Int    @id @default(autoincrement())
   name    String @unique @db.VarChar(255)

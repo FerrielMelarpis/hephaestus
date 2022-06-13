@@ -31,6 +31,7 @@ const Page = ({ bots }: PageProps) => {
 
 const isStringArray = (args: any | any[]): args is string[] =>
   Array.isArray(args) && typeof args[0] === 'string';
+
 export const getServerSideProps: GetServerSideProps<PageProps> = async (
   context,
 ) => {
@@ -47,8 +48,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (
   });
 
   apiUrl.search = params.toString();
+  const res = await fetch(apiUrl.toString(), {
+    headers: {
+      // we need to pass this explicitly instead of using `credentials: 'same-origin'` as this is ran in server-side
+      Cookie: context.req.headers.cookie,
+      // Authorization: 'bearer ' + context.req.cookies['session'], // can also use this
+    },
+  });
 
-  const res = await fetch(apiUrl.toString());
+  if (!res.ok) {
+    return { notFound: true };
+  }
+
   const bots = await res.json();
 
   return { props: { bots } };

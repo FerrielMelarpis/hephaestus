@@ -10,16 +10,19 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { BotService } from './bot.service';
 import { CreateBotDto } from './dto/create-bot.dto';
 import { UpdateBotDto } from './dto/update-bot.dto';
 import { Prisma } from '@prisma/client';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 
 @Controller('api/bots')
 export class BotController {
   constructor(private readonly botService: BotService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createBotDto: CreateBotDto) {
     try {
@@ -36,6 +39,7 @@ export class BotController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findMany(
     @Query('take') take?: number,
@@ -62,6 +66,7 @@ export class BotController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
     const bot = await this.botService.findUnique({ id });
@@ -73,6 +78,7 @@ export class BotController {
     return bot;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -84,6 +90,7 @@ export class BotController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.botService.deleteBot({ id });
